@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запомните синтаксис PITON</title>
+     <link rel="stylesheet" href="Color_Scheme.css">
+    <!-- <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #code {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            white-space: pre;
+            display: none;
+        }
+        #inputArea {
+            margin-bottom: 20px;
+        }
+        #description {
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        #tryButton {
+            margin-bottom: 20px;
+        }
+    </style> -->
+</head>
+<body>
+
+<h1>Запомните синтаксис C#</h1>
+<div id="description"></div>
+<div class="card1">
+<div id="code"></div>
+
+ <!-- <label for="userInput">Введите код:</label><br>
+   <textarea id="userInput" rows="3" oninput="autoResize(this)"></textarea><br> -->
+
+<!-- <div id="inputArea">
+    <label for="userInput">public void Main() {</label><br>
+    <textarea id="userInput" rows="10" cols="50"></textarea>}<br>
+    <button id="checkButton">Проверить</button>
+    <button id="repeatButton">Повторить</button>
+    <button id="nextButton" disabled>Следующий</button>
+    <button id="tryButton">Показать код</button>
+</div>
+</div>
+<div id="result"></div> -->
+               <label for="userInput">Введите код:</label><br>
+   <textarea id="userInput" rows="3" oninput="autoResize(this)"></textarea><br>
+
+    <script>
+        function autoResize(textarea) {
+            textarea.style.height = 'auto'; // Сбросить высоту
+            textarea.style.height = textarea.scrollHeight + 'px'; // Установить высоту в зависимости от содержимого
+        }
+    </script>
+    <button id="checkButton">Проверить</button>
+    <button id="repeatButton">Повторить</button>
+    <button id="tryButton">Показать код</button> <!-- Изменен текст кнопки -->
+    <button id="nextButton" disabled>Следующий</button>
+            </div>
+
+<div id="result"></div>
+
+<script src="Syntax_Checking\Syntax_Checking_JAVA.js"></script>
+<script src="Programming_Languages\JAVA.js"></script>
+
+
+<script>
+// const examples = [
+//     {
+//         code: `
+//  Console.WriteLine("Привет, мир!");
+// `,
+//         description: "Простейший пример программы, выводящей Привет, мир! на консоль.",
+//         next: 1
+//     },
+//     {
+//         code: `public int Add(int a = 5, int b = 5) {
+//     return a + b;
+// }`,
+//         description: "Метод, который принимает два целых числа и возвращает их сумму.",
+//         next: 2
+//     },
+//     {
+//         code: `public void PrintNumbers(int n) {
+//     for (int i = 1; i <= n; i++) {
+//         Console.WriteLine(i);
+//     }
+// }`,
+//         description: "Метод, который выводит числа от 1 до n.",
+//         next: 3
+//     }
+// ];
+
+let currentExampleIndex = 0;
+let codeVisible = false;
+
+function loadExample(index) {
+    if (index !== null && index < examples.length) {
+        document.getElementById('code').innerText = examples[index].code;
+        document.getElementById('description').innerText = examples[index].description;
+        document.getElementById('userInput').value = '';
+        document.getElementById('result').innerText = '';
+        document.getElementById('code').style.display = 'none';
+        codeVisible = false;
+        document.getElementById('nextButton').disabled = true;
+        document.getElementById('tryButton').innerText = "Показать код";
+        document.getElementById('checkButton').disabled = false;
+    } else {
+        document.getElementById('result').innerText = "Поздравляем! Вы прошли все примеры!";
+    }
+}
+
+document.getElementById('tryButton').addEventListener('click', function() {
+    if (!codeVisible) {
+        document.getElementById('code').style.display = 'block';
+        codeVisible = true;
+        this.innerText = "Скрыть код";
+        document.getElementById('checkButton').disabled = true;
+    } else {
+        loadExample(currentExampleIndex);
+    }
+});
+
+document.getElementById('nextButton').addEventListener('click', function() {
+    if (examples[currentExampleIndex].next !== null) {
+        currentExampleIndex = examples[currentExampleIndex].next;
+        loadExample(currentExampleIndex);
+    }
+});
+
+document.getElementById('checkButton').addEventListener('click', function() {
+    let inputText = document.getElementById('userInput').value.trim();
+    inputText = inputText.replace(/([(){}])/g, ' $1 ');
+    
+    const keywords = ['void', 'int', 'return', 'string', 'bool', 'int\\[\\]', '='];
+    const regex = new RegExp('(?:' + keywords.join('|') + ')\\s+([^;.!\\s]+)', 'g');
+    const quotedRegex = /"(.*?)"/g;
+    
+    const matches = [];
+    let match;
+    
+    while ((match = quotedRegex.exec(inputText)) !== null) {
+        matches.push(match[1]);
+    }
+    
+    while ((match = regex.exec(inputText)) !== null) {
+        const word = match[1].replace(/[^\wа-яА-ЯёЁ]/g, '').trim();
+        if (word) matches.push(word);
+    }
+    
+    const N = matches.map(word => word);
+
+    // Генерация examplesP на основе извлеченных значений
+//     const examplesP = [
+//     {
+//         codeP: `
+// Console.WriteLine("
+// ${N[0]}");
+// `,
+//         next: 1
+//     },
+// {
+//         codeP: `public int ${N[0]}(int ${N[1]} = ${N[2]}, int ${N[3]} = ${N[4]}) {
+
+//     return ${N[1]} + ${N[3]};
+// }`,
+//         next: 2
+//     },
+// {
+//         codeP: `public void ${N[0]}(int ${N[1]}) {
+//     for (int ${N[2]} = 1; ${N[2]} <= ${N[1]}; ${N[2]}++) {
+//         Console.WriteLine(${N[2]});
+//     }
+// }`,
+//         description: "Метод, который выводит числа от 1 до n.",
+//         next: 3
+//         }
+//     ];
+
+    const userInput = document.getElementById('userInput').value.replace(/\s+/g, '');
+    const correctCode = examplesP[currentExampleIndex].codeP.replace(/\s+/g, '');
+
+    if (userInput === correctCode) {
+        function addNumbers(a, b, c) {
+            if(examples[currentExampleIndex].next === 1) return c;
+            if(examples[currentExampleIndex].next === 2) return Number(a) + Number(b);
+            return 0;
+        }
+        
+        const result2 = addNumbers(N[2], N[4], N[0]);
+        document.getElementById('result').innerText = `✅ Правильно! Результат: ${result2}. Нажмите 'Следующий'`;
+        document.getElementById('nextButton').disabled = false;
+    } else {
+        document.getElementById('result').innerText = "❌ Неправильно! Попробуйте снова.";
+    }
+});
+
+document.getElementById('repeatButton').addEventListener('click', function() {
+    loadExample(currentExampleIndex);
+    document.getElementById('result').innerText = "🔄 Пример перезагружен. Попробуйте еще раз!";
+});
+
+// Загрузка первого примера
+loadExample(currentExampleIndex);
+</script>
+
+</body>
+</html>
