@@ -43,60 +43,59 @@ export function setupKeywordExplanation() {
   });
 }
 
-// Парсинг пользовательского ввода
+
 export function parseUserInput(inputText) {
   // Нормализуем входной текст
   inputText = inputText.replace(/([(){}])/g, ' $1 ');
   
   // Определяем ключевые слова для поиска
-  const keywords = ['void', 'int', 'return', 'string', 'bool', 'int\\[\\]', '='];
+  const keywords = ['void', 'int', 'return', 'string', 'bool', 'int\\[\\]', '=', 'double', 'int\\[\\,\\]', 'int\\[\\,\\,\\]'];
   const regex = new RegExp('(?:' + keywords.join('|') + ')\\s+([^;.!\\s]+)', 'g');
 
-  const braceValues = [];
-  const braceRegex = /\{(\d+)\}/g;
-  let match;
-  
-  while ((match = braceRegex.exec(inputText)) !== null) {
-    braceValues.push(match[1]);
-  }
-
-  const quotedParts = [];
-  const quotedRegex = /"(.*?)"/g;
-  
-  while ((match = quotedRegex.exec(inputText)) !== null) {
-    const content = match[1];
-    quotedParts.push(content);
-  }
-
-  const quotedParts1 = [];
-  const quotedRegex1 = /\$\s*"([^{"{]*)/g;
-  
-  while ((match = quotedRegex1.exec(inputText)) !== null) {
-    const content = match[1];
-    quotedParts1.push(content);
-  }
-
   const matches = [];
-  
-  if (quotedParts1.length > 0) {
-    matches.push(...quotedParts1);
+
+  // 1. Обработка интерполированных строк ($"... {variable} ...")
+  const interpolatedRegex = /\$\s*"([^{"{]*)/g;
+  let match;
+  while ((match = interpolatedRegex.exec(inputText)) !== null) {
+    const content = match[1];
+    // Извлекаем переменные из фигурных скобок
+    const vars = content.match(/\{([^}]+)\}/g) || [];
+    vars.forEach(v => matches.push(v.slice(1, -1)));
+    // Добавляем текст без переменных
+    const text = content.replace(/\{[^}]+\}/g, '').trim();
+    if (text) matches.push(text);
   }
 
-  if (quotedParts.length > 0) {
-    matches.push(quotedParts[0]);
-  }
-  
-  for (let i = 1; i < braceValues.length; i++) {
-    matches.push(braceValues[i]);
+  // 2. Обработка конкатенации строк ("text" + variable + "text")
+  const concatRegex = /"(.*?)"\s*\+\s*([^+\s)]+)\s*\+\s*"(.*?)"/g;
+  while ((match = concatRegex.exec(inputText)) !== null) {
+    matches.push(match[1], match[2], match[3]);
   }
 
-  // Обрабатываем ключевые слова
+// 3. Обработка простых строк в кавычках ("text")
+  const quotedRegex = /"(.*?)"/g;
+  while ((match = quotedRegex.exec(inputText)) !== null) {
+    // Проверяем, не является ли частью интерполяции/конкатенации
+    if (!inputText.includes(`$"${match[0]}`) && 
+        !inputText.includes(`${match[0]} +`)) {
+      matches.push(match[1]);
+    }
+  }
+
+// Обработка дробных чисел (включая целые)
+const decimalRegex = /(\d+\.?\d*|\.\d+)/g;
+while ((match = decimalRegex.exec(inputText)) !== null) {
+    matches.push(match[1]); // Используем match[0] вместо match[1]
+}
+
+
+  // Обработка ключевых слов (переменных, типов и т.д.)
   while ((match = regex.exec(inputText)) !== null) {
     const word = match[1].replace(/[^\wа-яА-ЯёЁ]/g, '').trim();
     if (word) matches.push(word);
   }
 
-  
-
-  return matches.map(word => word);
+  // Удаляем дубликаты и возвращаем результат
+  return [...new Set(matches.filter(item => item && item.trim()))];
 }

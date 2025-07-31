@@ -26,57 +26,376 @@ CREATE TABLE IF NOT EXISTS csharp_keywords (
 -- Заполнение тестовыми данными
 INSERT INTO examples (code, description, next) VALUES
 ('Console.WriteLine("Привет, мир!");', 'Простейший пример программы, выводящей Привет, мир! на консоль.', 1),
-('public int Add(int a = 5, int b = 5) {
+('public int Add(int a = 5 , int b = 6) {
      return a + b;
  }', 'Метод, который принимает два целых числа и возвращает их сумму.', 2),
- ('public void PrintNumbers(int n = 5) {
+('public void PrintNumbers(int n = 5) {
      for (int i = 1; i <= n; i++) {
          Console.WriteLine(i);
     }
  }', 'Метод, который выводит числа от 1 до n.', 3),
- ('public void StringManipulationExample() {
+('public void StringManipulationExample() {
       string original = "Программирование на C#";
       string upper = original.ToUpper();
       string lower = original.ToLower();
       Console.WriteLine($"Верхний регистр: {upper}");
       Console.WriteLine($"Нижний регистр: {lower}");
-  }', 'Пример манипуляции строками: преобразование в верхний и нижний регистр.', 4);
+  }', 'Пример манипуляции строками: преобразование в верхний и нижний регистр.', 4),
+('string name = "Алексей";
+int age = 30;
+Console.WriteLine("Имя: " + name + ", Возраст: " + age);
+Console.WriteLine($"Имя: {name}, Возраст: {age}");', 'Вывести имя и возраст пользователя, используя конкатенацию и интерполяцию строк.', 5),
+('double length = 5.5;
+double width = 3.2;
+double area = length * width;
+Console.WriteLine($"Площадь прямоугольника: {area}");', 'Рассчитать площадь прямоугольника.', 6),
+('int number = 7;
+if (number % 2 == 0) {
+    Console.WriteLine($"Четное число - {number}");
+} else {
+    Console.WriteLine($"Нечетное число - {number}");
+}', 'Проверить, является ли число четным или нечетным.', 7),
+('int N = 10;
+for (int i = 1; i <= N; i++) {
+    if (i % 3 == 0) {
+        Console.WriteLine(i);
+    }
+}', 'Вывести все числа от 1 до N, которые делятся на 3.', 8),
+('int Max(int a, int b) {
+    return a > b ? a : b;
+}
+int result = Max(5, 8);
+Console.WriteLine($"Максимум: {result}");', 'Функция, которая возвращает максимум из двух чисел.', 9),
+('int[] numbers = { 1, 2, 3, 4, 5 };
+int sum = 0;
+foreach (int num in numbers) {
+    sum += num;
+}
+Console.WriteLine($"Сумма: {sum}");', 'Найти сумму элементов массива.', 10),
+('int[,] matrix = {
+    { 1, 2, 3 },
+    { 4, 5, 6 },
+    { 7, 8, 9 }
+};
+for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+        Console.Write(matrix[i, j] + " ");
+    }
+    Console.WriteLine();
+}', 'Вывести элементы двумерного массива.', 11),
+('int[,,] cube = {
+    { { 1, 2 }, { 3, 4 } },
+    { { 5, 6 }, { 7, 8 } }
+};
+int max = cube[0, 0, 0];
+for (int i = 0; i < 2; i++) {
+    for (int j = 0; j < 2; j++) {
+        for (int k = 0; k < 2; k++) {
+            if (cube[i, j, k] > max) {
+                max = cube[i, j, k];
+            }
+        }
+    }
+}
+Console.WriteLine($"Максимальный элемент: {max}");', 'Найти максимальный элемент в трехмерном массиве.', 12);
 
 INSERT INTO templates (example_id, codeP) VALUES
 (1, 'Console.WriteLine("{0}");'),
-(2, 'public int {0}(int {1} = {2}, int {3} = {4}) {
-    return {1} + {3};
+(2, 'public int {2}(int {3} = {0} , int {4} = {1}) {
+    return {3} + {4};
 }'),
-(3, 'public void {0}(int {1} = {2}) {
-    for (int {3} = 1; {3} <= {1}; {3}++) {
-        Console.WriteLine({3});
-    }
-}'),
-(4, 'public void {3}() {
-      string {4} = "{2}";
-      string {6} = {4}.ToUpper();
-      string {8} = {4}.ToLower();
-      Console.WriteLine($"{0} {{6}}");
-      Console.WriteLine($"{1} {{8}}");
-}');
+(3, 'public void {2}(int {3} = {0}) { 
+    for (int {4} = 1; {4} <= {3}; {4}++) { 
+        Console.WriteLine({4}); } }'),
+(4, 'public void {5}() {
+      string {6} = "{2}";
+      string {8} = {6}.ToUpper();
+      string {9} = {6}.ToLower();
+      Console.WriteLine($"{0} {{8}}");
+      Console.WriteLine($"{1} {{9}}"); }'),
+(5, 'string {2} = "{4}"; 
+int {7} = {6}; 
+Console.WriteLine("{0} " + {2} + "{3}" + {7}); 
+Console.WriteLine($"{0} {{2}}{3} {{7}}");
+'),
+(6, 'double {4} = {2}; 
+double {6} = {3}; 
+double {8} = {4} * {6}; 
+Console.WriteLine($"{0} {{8}}");'),
+(7, 'int {7} = {4}; 
+    if ({7} % 2 == 0) { 
+    Console.WriteLine($"{0} {{7}}"); 
+    } else { 
+    Console.WriteLine($"{1} {{7}}");
+    }'),
+(8, 'int {4} = {0}; 
+for (int {5} = 1; {5} <= {4}; {5}++) { 
+    if ({5} % 3 == 0) { 
+        Console.WriteLine({5}); } }'),
+(9, 'int {4}(int {5}, int {6}) { 
+    return {5} > {6} ? {5} : {6}; } 
+    int {7} = {4}({2}, {3}); 
+    Console.WriteLine($"{0} {{7}}");'),
 
--- Обновление ссылки next для последнего примера
--- UPDATE examples
--- SET next = 3
--- WHERE id = 3;
+(10, 'int[] {8} = { {2}, {3}, {4}, {5}, {6} }; 
+ int {9} = {7}; 
+ foreach (int {10} in {8}) { {9} += {10}; } 
+ Console.WriteLine($"{0} {{9}}");'),
+(11, 'int[,] {10} = { { {0}, {1}, {2} }, { {3}, {4}, {5} }, { {6}, {7}, {8} } }; 
+ for (int {11} = 0; {11} < 3; {11}++) { 
+    for (int {12} = 0; {12} < 3; {12}++) { 
+        Console.Write({10}[{11}, {12}] + " "); } 
+        Console.WriteLine(); }'),
+(12, 'int[,,] {11} = { { { {2}, {3} }, { {4}, {5} } }, { { {6}, {7} }, { {8}, {9} } } }; 
+int {12} = {11}[0, 0, 0]; 
+for (int {14} = 0; {14} < 2; {14}++) { 
+    for (int {15} = 0; {15} < 2; {15}++) { 
+        for (int {16} = 0; {16} < 2; {16}++) { 
+            if ({11}[{14}, {15}, {16}] > {12}) { {12} = {11}[{14}, {15}, {16}]; } } } } 
+            Console.WriteLine($"{0} {{12}}");');
 
--- Заполняем таблицу ключевых слов данными
--- INSERT INTO csharp_keywords (keyword, description, example, category) VALUES
--- ('public', 'Модификатор доступа - элемент доступен из любого кода', 'public class MyClass { }', 'Модификаторы доступа'),
--- ('void', 'Указывает, что метод не возвращает значение', 'public void MyMethod() { }', 'Типы возвращаемых значений'),
--- ('int', 'Целочисленный тип данных (32-битное целое число)', 'int number = 10;', 'Типы данных'),
--- ('return', 'Возвращает значение из метода', 'return 42;', 'Операторы'),
--- ('string', 'Тип данных для хранения текста', 'string name = "John";', 'Типы данных'),
--- ('bool', 'Логический тип данных (true/false)', 'bool isActive = true;', 'Типы данных'),
--- ('=', 'Оператор присваивания', 'int x = 5;', 'Операторы'),
--- ('class', 'Определяет новый тип (класс)', 'class MyClass { }', 'Основные конструкции'),
--- ('if', 'Условный оператор', 'if (condition) { }', 'Операторы управления'),
--- ('else', 'Альтернативная ветка условного оператора', 'else { }', 'Операторы управления');
+
+
+
+CREATE TABLE IF NOT EXISTS code_explanations (
+  example_id INTEGER PRIMARY KEY,
+  structure TEXT NOT NULL,
+  algorithm TEXT NOT NULL,
+  notes TEXT,
+  FOREIGN KEY (example_id) REFERENCES examples(id)
+);
+
+-- Пример 1: Console.WriteLine
+INSERT INTO code_explanations (example_id, structure, algorithm, notes) 
+VALUES (
+  1,
+  '1. Console.WriteLine - метод вывода текста в консоль
+2. "Привет, мир!" - строковый литерал (текст в кавычках)',
+  '- Программа выводит текст между кавычками
+- Автоматически добавляет переход на новую строку',
+  'Точка с запятой ; завершает инструкцию'
+);
+
+-- Пример 2: Метод Add
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  2,
+  '1. public - доступен из других классов
+2. int - возвращает целое число
+3. Add - имя метода
+4. Параметры:
+   - int a = 5 - число со значением по умолчанию 5
+   - int b = 6 - число со значением по умолчанию 6
+5. return a + b - возвращает сумму параметров',
+  '- При вызове без аргументов использует значения по умолчанию
+- Можно передать свои значения: Add(3, 4) вернет 7',
+  'Пример вызова: int result = Add(); // Вернет 11'
+);
+
+-- Пример 3: PrintNumbers
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  3,
+  '1. int i = 1 - инициализация счетчика
+2. i <= n - условие продолжения цикла
+3. i++ - инкремент счетчика',
+  '1. Создается счетчик i = 1
+2. Проверяется условие i <= n (n по умолчанию 5)
+3. Если условие истинно:
+   - Выводится значение i
+   - Счетчик увеличивается на 1 (i++)
+4. Повторяется шаг 2',
+  'Цикл выполняется ровно n раз. Выводит числа в возрастающем порядке.
+Результат для n=5: 1 2 3 4 5'
+);
+
+-- Пример 4: Манипуляция строками
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  4,
+  '1. string original - исходная строка
+2. ToUpper() - преобразование в верхний регистр
+3. ToLower() - преобразование в нижний регистр
+4. Console.WriteLine - вывод с интерполяцией строк',
+  '1. Создается строка original с текстом
+2. ToUpper() преобразует все символы в ВЕРХНИЙ РЕГИСТР
+3. ToLower() преобразует все символы в нижний регистр
+4. Вывод с интерполяцией строк ($ перед кавычками)',
+  'Исходная строка original не изменяется. Методы возвращают новые строки.
+Результат:
+Верхний регистр: ПРОГРАММИРОВАНИЕ НА C#
+Нижний регистр: программирование на c#'
+);
+
+-- Пример 5: Конкатенация vs Интерполяция
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  5,
+  '1. Конкатенация: "Имя: " + name + ", Возраст: " + age
+2. Интерполяция: $"Имя: {name}, Возраст: {age}"',
+  'Способ 1 (конкатенация):
+- Соединение строк оператором +
+- Менее читаемо при многих параметрах
+
+Способ 2 (интерполяция):
+- Переменные подставляются в { }
+- Более чистый и читаемый код',
+  'Вывод (одинаковый для обоих способов):
+Имя: Алексей, Возраст: 30'
+);
+
+-- Продолжаем для остальных примеров (6-12) аналогичным образом...
+
+-- Пример 6: Площадь прямоугольника
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  6,
+  '1. double length - длина
+2. double width - ширина
+3. double area = length * width - вычисление площади
+4. Console.WriteLine - вывод результата',
+  'Формула:
+Площадь = Длина × Ширина
+
+Ключевые моменты:
+- Используется тип double для дробных чисел
+- Умножение оператором *',
+  'Пример расчета:
+5.5 * 3.2 = 17.6
+Вывод:
+Площадь прямоугольника: 17.6'
+);
+
+-- Пример 7: Четность числа
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  7,
+  '1. int number - проверяемое число
+2. number % 2 == 0 - проверка четности
+3. if-else - выбор ветки выполнения',
+  'Логика проверки:
+- Четное: number % 2 == 0 (остаток от деления на 2 равен 0)
+- Нечетное: иначе',
+  'Оператор % возвращает остаток от деления.
+
+');
+
+
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  8,
+  '1. int N - верхняя граница диапазона
+2. for (int i = 1; i <= N; i++) - цикл перебора чисел
+3. if (i % 3 == 0) - проверка кратности 3',
+  '1. Перебираем числа от 1 до N (включительно)
+2. Проверяем условие i % 3 == 0
+3. Если истина - выводим число',
+  'Особенности:
+- Проверка кратности через остаток от деления
+- Вывод только подходящих чисел
+Результат для N=10:
+3
+6
+9'
+);
+
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  9,
+  '1. int Max(int a, int b) - объявление метода
+2. return a > b ? a : b - тернарный оператор
+3. Console.WriteLine - вывод результата',
+  '1. Сравнивает a и b
+2. Если a > b - возвращает a
+3. Иначе - возвращает b',
+  'Тернарный оператор: условие ? значение_если_истина : значение_если_ложь
+Пример:
+Max(5, 8) → 8
+Вывод:
+
+');
+
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  10,
+  '1. int[] numbers - объявление массива
+2. foreach (int num in numbers) - цикл перебора
+3. sum += num - накопление суммы',
+  '1. Создается массив из 5 чисел
+2. Инициализируется переменная sum = 0
+3. Цикл foreach перебирает все элементы
+4. Каждое число добавляется к sum',
+  'Особенности:
+- foreach автоматически перебирает элементы
+- sum += num эквивалентно sum = sum + num
+
+');
+
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  11,
+  '1. int[,] matrix - объявление матрицы
+2. Вложенные циклы for по строкам и столбцам
+3. Console.Write + Console.WriteLine - форматированный вывод',
+  '1. Внешний цикл по строкам (i)
+2. Внутренний цикл по столбцам (j)
+3. Вывод элемента matrix[i,j]
+4. Перевод строки после каждой строки матрицы',
+  'Структура матрицы 3x3:
+1 2 3
+4 5 6
+7 8 9
+Формат вывода:
+
+');
+
+INSERT INTO code_explanations (example_id, structure, algorithm, notes)
+VALUES (
+  12,
+  '1. int[,,] cube - трехмерный массив 2x2x2
+2. Три вложенных цикла for по измерениям
+3. if (cube[i,j,k] > max) - поиск максимума',
+  '1. Изначально max = первый элемент
+2. Цикл по первому измерению (i)
+3. Цикл по второму измерению (j)
+4. Цикл по третьему измерению (k)
+5. Сравнение и обновление максимума',
+  'Логика:
+- Сравнивает каждый элемент
+- Обходит весь "куб" данных
+
+');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -274,4 +593,5 @@ INSERT INTO csharp_keywords (keyword, description, example, category) VALUES
 ('Obsolete', 'Атрибут для пометки устаревшего кода', '[Obsolete("Use NewMethod instead")] void OldMethod() { }', 'Атрибуты'),
 ('Serializable', 'Атрибут для пометки сериализуемых классов', '[Serializable] class MyData { }', 'Атрибуты'),
 ('DllImport', 'Атрибут для импорта функций из DLL', '[DllImport("user32.dll")] static extern void MessageBeep(uint uType);', 'Атрибуты');
+
 
