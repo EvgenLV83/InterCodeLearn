@@ -1,8 +1,20 @@
 import { domElements } from './dom-elements.js';
 
+
+
+
+
+
+
+
+
+
+
+
+
 // Настройка объяснения ключевых слов
 export function setupKeywordExplanation() {
-  const { userInputEl, codeExplanationEl, explanationContentEl } = domElements;
+  const { userInputEl, codeExplanationWord, explanationContentEl } = domElements;
   let lastTypedWord = '';
   let explanationTimeout;
 
@@ -24,24 +36,50 @@ export function setupKeywordExplanation() {
               <p><strong>${currentWord}:</strong> ${data.description}</p>
               ${data.example ? `<p><em>Пример:</em> <code>${data.example}</code></p>` : ''}
             `;
-            codeExplanationEl.style.display = 'block';
+            codeExplanationWord.style.display = 'block';
           } else {
-            codeExplanationEl.style.display = 'none';
+            codeExplanationWord.style.display = 'none';
           }
         } catch (error) {
           console.error('Error fetching keyword info:', error);
-          codeExplanationEl.style.display = 'none';
+          codeExplanationWord.style.display = 'none';
         }
       }, 800);
     }
   });
 
+
+
   userInputEl.addEventListener('keydown', (e) => {
     if (e.key === 'Backspace' && userInputEl.value.trim() === '') {
-      codeExplanationEl.style.display = 'none';
+      codeExplanationWord.style.display = 'none';
     }
+  
   });
 }
+
+
+
+
+
+ 
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 export function parseUserInput(inputText) {
@@ -99,3 +137,54 @@ while ((match = decimalRegex.exec(inputText)) !== null) {
   // Удаляем дубликаты и возвращаем результат
   return [...new Set(matches.filter(item => item && item.trim()))];
 }
+
+
+
+
+
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Интерактивное изучение языков программирования</title>
+    <link rel="stylesheet" href="/css/Color_Scheme.css">
+
+</head>
+
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <div class="logo">InterCodeLearn</div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="Courses.html">Курсы</a>
+            <a href="Report3.html"> Реализация</a>
+        </nav>
+    </header>
+
+   
+    <meta charset="UTF-8">
+    <title>ER-диаграмма базы данных InterCodeLearn</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .diagram { 
+            background: #f5f5f5; 
+            padding: 20px; 
+            border-radius: 10px; 
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        h1 { color: #2c3e50; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>ER-диаграмма базы данных InterCodeLearn</h1>
+    <div class="diagram">
+        <div class="mermaid">
+            erDiagram
+                EXAMPLES ||--o{ TEMPLATES : "1-to-many"
+                EXAMPLES ||--o{ CODE_EXPLANATIONS : "1-to-1"
+                EXAMPLES {
+                    int id PK "Уникальный ID"
+                    text code "Пример кода"
+                    text description "Описание"
+                    int next "ID следующего примера (nullable)"
+                }
+                TEMPLATES {
+                    int id PK
+                    int example_id FK "Ссылка на пример"
+                    text codeP "Шаблон с плейсхолдерами ({0}, {1})"
+                }
+                CODE_EXPLANATIONS {
+                    int example_id PK,FK "Связь с примером"
+                    text structure "Структура кода"
+                    text algorithm "Алгоритм"
+                    text notes "Примечания"
+                }
+                CSHARP_KEYWORDS {
+                    int id PK
+                    text keyword "Ключевое слово"
+                    text description "Описание"
+                    text example "Пример использования"
+                    text category "Категория (тип данных, оператор и т.д.)"
+                }
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            er: {
+                diagramPadding: 20,
+                layoutDirection: 'TB'
+            }
+        });
+    </script>
+</body>
+</html>

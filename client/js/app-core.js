@@ -87,6 +87,9 @@ export function checkCode() {
   console.log(normalizedUserInput);
   console.log(normalizedCorrectCode);
 
+//   if (codeExplanationEl.style.display !== 'none' && explanationRequested) {
+//   codeExplanationEl.style.display = 'block';
+// }
   if (normalizedUserInput === normalizedCorrectCode) {
     const resultUser = calculateResult(N, appState.currentExampleIndex);
     resultEl.innerText = `✅ Правильно! \n Результат вашего кода: \n ${resultUser} \n Нажмите 'Следующий'.`;
@@ -160,45 +163,127 @@ function calculateResult(N, currentIndex) {
 
 
 
+// Расширенный словарь переводов для программирования
+        const translations = {
+            // Типы данных
+            "кошка": "int",
+            "булевый": "boolean",
+            "строка": "String",
+            "плавающий": "float",
+            "двойной": "double",
+            "символьный": "char",
+            "байт": "byte",
+            
+            // Модификаторы
+            "публичный": "public",
+            "приватный": "private",
+            "защищенный": "protected",
+            "статический": "static",
+            "финальный": "final",
+            "абстрактный": "abstract",
+            "синхронизированный": "synchronized",
+            "переходный": "transient",
+            "летучий": "volatile",
+            
+            // Ключевые слова
+            "класс": "class",
+            "интерфейс": "interface",
+            "перечисление": "enum",
+            "импорт": "import",
+            "пакет": "package",
+            "новый": "new",
+            "возврат": "return",
+            "супер": "super",
+            "этот": "this",
+            
+            // Управляющие конструкции
+            "если": "if",
+            "иначе": "else",
+            "для": "for",
+            "пока": "while",
+            "делать": "do",
+            "переключатель": "switch",
+            "случай": "case",
+            "по умолчанию": "default",
+            "прервать": "break",
+            "продолжить": "continue",
+            "попробовать": "try",
+            "поймать": "catch",
+            "выбросить": "throw",
+            "бросить": "throws",
+            "наконец": "finally",
+            
+            // Логические значения
+            "истина": "true",
+            "ложь": "false",
+            
+            // Прочее
+            "недействительный": "void",
+            "утверждать": "assert",
+            "экземпляр": "instanceof",
+            "родной": "native",
+            "строгий": "strictfp"
+        };
 
-async function displayCodeExplanation(exampleIndex) {
-  const { codeExplanationEl } = domElements;
-  
-  try {
-    const response = await fetch(`/api/code-explanations/${exampleIndex + 1}`); // +1 если индексы в БД начинаются с 1
-    if (!response.ok) throw new Error('Объяснение не найдено');
-    
-    const explanation = await response.json();
-    
-    // Проверяем, есть ли данные в объяснении
-    if (!explanation) throw new Error('Объяснение пустое');
-    
-    codeExplanationEl.innerHTML = `
-      <div class="explanation-section">
-        <h3>Структура кода:</h3>
-        <p>${explanation.structure || "Нет информации"}</p>
-      </div>
-      <div class="explanation-section">
-        <h3>Алгоритм работы:</h3>
-        <p>${explanation.algorithm || "Нет информации"}</p>
-      </div>
-      <div class="explanation-section">
-        <h3>Примечания:</h3>
-        <p>${explanation.notes || "Нет примечаний"}</p>
-      </div>
-    `;
-    codeExplanationEl.style.display = 'block';
-  } catch (error) {
-    console.error('Ошибка загрузки объяснения:', error);
-    codeExplanationEl.innerHTML = `
-      <div class="explanation-error">
-        <p>Объяснение к этому примеру недоступно</p>
-        <p>${error.message}</p>
-      </div>
-    `;
-    codeExplanationEl.style.display = 'block';
-  }
-}
+        // Функция для поиска последнего введенного слова
+       export function getLastWord(text, cursorPos) {
+            if (cursorPos === 0) return '';
+            
+            let wordStart = cursorPos - 1;
+            while (wordStart >= 0 && !isDelimiter(text[wordStart])) {
+                wordStart--;
+            }
+            
+            return text.substring(wordStart + 1, cursorPos).trim();
+        }
+
+        // Проверка на разделитель
+        function isDelimiter(char) {
+            const delimiters = [' ', '\n', '\t', '(', ')', '{', '}', '[', ']', ';', ',', '.', '=', '+', '-', '*', '/', '%', '<', '>', '!', '&', '|', '^', '~', '?', ':'];
+            return delimiters.includes(char);
+        }
+
+        // функция перевода
+      export  function translateInPlace(event) {
+            const input = event.target;
+            const cursorPos = input.selectionStart;
+            const text = input.value;
+            
+            // Получаем последнее введенное слово
+            const lastWord = getLastWord(text, cursorPos);
+            
+            if (lastWord && translations[lastWord.toLowerCase()]) {
+                const translated = translations[lastWord.toLowerCase()];
+                
+                // Сохраняем позицию курсора
+                const wordStart = cursorPos - lastWord.length;
+                
+                // Заменяем слово
+                input.value = text.substring(0, wordStart) + translated + text.substring(cursorPos);
+                
+                // Восстанавливаем позицию курсора
+                input.selectionStart = input.selectionEnd = wordStart + translated.length;
+            }
+        }
+
+// // Настройка обработчика событий
+//   userInputEl.addEventListener('input', translateInPlace);
+//         userInputEl.addEventListener('keydown', function(e) {
+//             // Обрабатываем пробел и другие разделители
+//             if ([' ', ';', '(', '{', '\n'].includes(e.key)) {
+//                 setTimeout(() => translateInPlace(e), 10);
+//             }
+//         });
+ 
+
+
+
+
+
+
+
+
+
 
 
 
@@ -210,6 +295,15 @@ async function displayCodeExplanation(exampleIndex) {
            export function highlightCode() {
   const { languageSelector, userInputEl, codeHighlight } = domElements;
   
+// Настройка обработчика событий
+  userInputEl.addEventListener('input', translateInPlace);
+        userInputEl.addEventListener('keydown', function(e) {
+            // Обрабатываем пробел и другие разделители
+            if ([' ', ';', '(', '{', '\n'].includes(e.key)) {
+                setTimeout(() => translateInPlace(e), 10);
+            }
+        });
+
   if (!languageSelector || !userInputEl || !codeHighlight) {
     console.error('Элементы для подсветки не найдены');
     return;
@@ -306,3 +400,41 @@ export async function createApp() {
 }
             
 
+async function displayCodeExplanation(exampleIndex) {
+  const { codeExplanationEl } = domElements;
+  
+  try {
+    const response = await fetch(`/api/code-explanations/${exampleIndex + 1}`); // +1 если индексы в БД начинаются с 1
+    if (!response.ok) throw new Error('Объяснение не найдено');
+    
+    const explanation = await response.json();
+    
+    // Проверяем, есть ли данные в объяснении
+    if (!explanation) throw new Error('Объяснение пустое');
+    
+    codeExplanationEl.innerHTML = `
+      <div class="explanation-section">
+        <h3>Структура кода:</h3>
+        <p>${explanation.structure || "Нет информации"}</p>
+      </div>
+      <div class="explanation-section">
+        <h3>Алгоритм работы:</h3>
+        <p>${explanation.algorithm || "Нет информации"}</p>
+      </div>
+      <div class="explanation-section">
+        <h3>Примечания:</h3>
+        <p>${explanation.notes || "Нет примечаний"}</p>
+      </div>
+    `;
+    codeExplanationEl.style.display = 'block';
+  } catch (error) {
+    console.error('Ошибка загрузки объяснения:', error);
+    codeExplanationEl.innerHTML = `
+      <div class="explanation-error">
+        <p>Объяснение к этому примеру недоступно</p>
+        <p>${error.message}</p>
+      </div>
+    `;
+    codeExplanationEl.style.display = 'block';
+  }
+}
