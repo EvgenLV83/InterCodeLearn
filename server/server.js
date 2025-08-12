@@ -1,3 +1,4 @@
+
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
@@ -7,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 1. Инициализация базы данных SQLite
-const dbPath = path.join(__dirname, 'csharp_examples_db.sqlite');
+const dbPath = path.join(__dirname, 'InterCodeLearn_db.sqlite');
 
 // Удаляем старую базу данных при каждом запуске (для тестирования)
 if (fs.existsSync(dbPath)) {
@@ -33,12 +34,12 @@ if (!fs.existsSync(clientDir) || !fs.existsSync(jsDir) || !fs.existsSync(languag
   process.exit(1);
 }
 
-// 3. Настройка middleware
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST']
-}));
-app.use(express.json());
+// // 3. Настройка middleware
+// app.use(cors({
+//   origin: '*',
+//   methods: ['GET', 'POST']
+// }));
+// app.use(express.json());
 
 // 4. Настройка статических файлов
 app.use(express.static(clientDir)); // Основная папка клиента
@@ -46,34 +47,74 @@ app.use('/js', express.static(jsDir)); // Специальный маршрут 
 app.use('/languages', express.static(languagesDir)); // Маршрут для языковых файлов
 
 // 5. Инициализация базы данных
+// async function initializeDatabase() {
+//   return new Promise((resolve, reject) => {
+//     db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='examples'", (err, row) => {
+//       if (err) {
+//         reject(err);
+//         return;
+//       }
+
+//       if (!row) {
+//         console.log('🔧 Initializing new database...');
+//         const sqlScript = fs.readFileSync(path.join(__dirname, 'database.sql'), 'utf8');
+
+//         db.exec(sqlScript, (execErr) => {
+//           if (execErr) {
+//             console.error('❌ Error initializing database:', execErr.message);
+//             reject(execErr);
+//           } else {
+//             console.log('✅ Database initialized successfully');
+//             resolve(true);
+//           }
+//         });
+//       } else {
+//         console.log('✅ Database already exists and is properly structured');
+//         resolve(true);
+//       }
+//     });
+//   });
+// }
+
+
 async function initializeDatabase() {
-  return new Promise((resolve, reject) => {
-    db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='examples'", (err, row) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+  try {
+    const sqlFiles = [
+      'SQL_BD/CPP/tables.sql',
+      'SQL_BD/CPP/examples_data.sql',
+      'SQL_BD/CPP/templates_data.sql',
+      'SQL_BD/CPP/keywords_data.sql',
+      'SQL_BD/CPP/explanations_data.sql',
+      'SQL_BD/CSharp/tables.sql',
+      'SQL_BD/CSharp/examples_data.sql',
+      'SQL_BD/CSharp/templates_data.sql',
+      'SQL_BD/CSharp/keywords_data.sql',
+      'SQL_BD/CSharp/explanations_data.sql',
 
-      if (!row) {
-        console.log('🔧 Initializing new database...');
-        const sqlScript = fs.readFileSync(path.join(__dirname, 'database.sql'), 'utf8');
 
-        db.exec(sqlScript, (execErr) => {
-          if (execErr) {
-            console.error('❌ Error initializing database:', execErr.message);
-            reject(execErr);
-          } else {
-            console.log('✅ Database initialized successfully');
-            resolve(true);
-          }
-        });
-      } else {
-        console.log('✅ Database already exists and is properly structured');
-        resolve(true);
-      }
-    });
-  });
+      
+    ];
+    
+    for (const file of sqlFiles) {
+      const sql = fs.readFileSync(path.join(__dirname, file), 'utf8');
+      await new Promise((resolve, reject) => {
+        db.exec(sql, (err) => err ? reject(err) : resolve());
+      });
+      console.log(`✅ Executed ${file}`);
+    }
+    
+    await db.run("CREATE INDEX IF NOT EXISTS idx_keywords_category ON CSharp_keywords(category)");
+    console.log('✅ Database initialized successfully');
+    await db.run("CREATE INDEX IF NOT EXISTS idx_keywords_category ON CPP_keywords(category)");
+    console.log('✅ Database initialized successfully');
+  } catch (err) {
+    console.error('❌ Error initializing database:', err.message);
+    throw err;
+  }
 }
+
+
+
 
 // 6. Логирование запросов
 app.use((req, res, next) => {
@@ -82,16 +123,16 @@ app.use((req, res, next) => {
 });
 
 // 7. API Endpoints
-app.get('/api/examples', async (req, res) => {
+app.get(`/api/CSharp/CSharp_examples`, async (req, res) => {
   try {
-    db.all('SELECT * FROM examples ORDER BY id', (err, rows) => {
+    db.all('SELECT * FROM CSharp_examples ORDER BY id', (err, rows) => {
       if (err) {
         throw err;
       }
       res.json(rows);
     });
   } catch (err) {
-    console.error('Error fetching examples:', err);
+    console.error('Error fetching CSharp_examples:', err);
     res.status(500).json({
       error: 'Database error',
       message: err.message
@@ -99,9 +140,9 @@ app.get('/api/examples', async (req, res) => {
   }
 });
 
-app.get('/api/templates', async (req, res) => {
+app.get(`/api/CSharp/CSharp_templates`, async (req, res) => {
   try {
-    db.all('SELECT * FROM templates ORDER BY example_id', (err, rows) => {
+    db.all('SELECT * FROM CSharp_templates ORDER BY example_id', (err, rows) => {
       if (err) {
         throw err;
       }
@@ -119,9 +160,9 @@ app.get('/api/templates', async (req, res) => {
 
 
 // Пример для Node.js + Express
-app.get('/api/code-explanations/:id', (req, res) => {
+app.get(`/api/CSharp/CSharp_code-explanations/:id`, (req, res) => {
   db.get(
-    'SELECT * FROM code_explanations WHERE example_id = ?',
+    'SELECT * FROM CSharp_code_explanations WHERE example_id = ?',
     [req.params.id],
     (err, row) => {
       if (err) {
@@ -145,16 +186,13 @@ app.get('/api/code-explanations/:id', (req, res) => {
 
 
 
-
-
-
-app.get('/api/keyword/:word', async (req, res) => {
+app.get(`/api/CSharp/CSharp_keywords/:word`, async (req, res) => {
   const word = req.params.word;
   console.log(`Requesting explanation for word: ${word}`);
 
   try {
     db.get(
-      'SELECT keyword, description, example FROM csharp_keywords WHERE keyword = ?',
+      'SELECT keyword, description, example FROM CSharp_keywords WHERE keyword = ?',
       [word],
       (err, row) => {
         if (err) {
@@ -180,6 +218,126 @@ app.get('/api/keyword/:word', async (req, res) => {
     });
   }
 });
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// 7. API Endpoints
+app.get(`/api/CPP/CPP_examples`, async (req, res) => {
+  try {
+    db.all('SELECT * FROM CPP_examples ORDER BY id', (err, rows) => {
+      if (err) {
+        throw err;
+      }
+      res.json(rows);
+    });
+  } catch (err) {
+    console.error('Error fetching CPP_examples:', err);
+    res.status(500).json({
+      error: 'Database error',
+      message: err.message
+    });
+  }
+});
+
+app.get(`/api/CPP/CPP_templates`, async (req, res) => {
+  try {
+    db.all('SELECT * FROM CPP_templates ORDER BY example_id', (err, rows) => {
+      if (err) {
+        throw err;
+      }
+      res.json(rows);
+    });
+  } catch (err) {
+    console.error('Error fetching templates:', err);
+    res.status(500).json({
+      error: 'Database error',
+      message: err.message
+    });
+  }
+});
+
+
+
+// Пример для Node.js + Express
+app.get(`/api/CPP/CPP_code-explanations/:id`, (req, res) => {
+  db.get(
+    'SELECT * FROM CPP_code_explanations WHERE example_id = ?',
+    [req.params.id],
+    (err, row) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: 'Database error' });
+      }
+      
+      if (!row) {
+        return res.status(404).json({ 
+          error: 'Объяснение не найдено',
+          structure: "Нет информации",
+          algorithm: "Нет информации", 
+          notes: "Нет примечаний"
+        });
+      }
+      
+      res.json(row);
+    }
+  );
+});
+
+
+
+app.get(`/api/CPP/CPP_keywords/:word`, async (req, res) => {
+  const word = req.params.word;
+  console.log(`Requesting explanation for word: ${word}`);
+
+  try {
+    db.get(
+      'SELECT keyword, description, example FROM CPP_keywords WHERE keyword = ?',
+      [word],
+      (err, row) => {
+        if (err) {
+          throw err;
+        }
+
+        if (row) {
+          res.json(row);
+        } else {
+          res.status(404).json({
+            error: 'Keyword not found',
+            keyword: word
+          });
+        }
+      }
+    );
+  } catch (error) {
+    console.error(`Error fetching keyword ${word}:`, error);
+    res.status(500).json({
+      error: 'Database error',
+      keyword: word,
+      message: error.message
+    });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // 8. Обработка SPA (должна быть последней)
 app.get('*', (req, res) => {
