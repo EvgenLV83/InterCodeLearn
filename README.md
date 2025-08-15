@@ -1,3 +1,2 @@
 # InterCodeLearn
-
-Описание моег опроекта
+Copyright © 2025 Loginov E.V. All rights reserved.
