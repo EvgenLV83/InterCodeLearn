@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Интерактивное изучение языков программирования</title>
+    <link rel="stylesheet" href="/css/dist/combined.css">
+
+</head>
+
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <div class="logo">InterCodeLearn</div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="Courses.html">Курсы</a>
+            <a href="0MermaidSQL.html">EXAMPLES</a>
+        </nav>
+    </header>
+
+    
+  
+</body>
+<meta charset="UTF-8">
+    <title>Архитектура InterCodeLearn</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .diagram { 
+            background: #f5f5f5; 
+            padding: 1px; 
+            border-radius: 50px; 
+            max-width: 2500px;
+            margin: 1;
+        }
+        h1 { color: #2c3e50; text-align: center; }
+        .mermaid {
+    transform: scale(1.0);
+    transform-origin: 0 0;
+}
+.mermaid .edgeLabel {
+        font-size: 50px;
+    }
+
+
+    .mermaid .cluster-label foreignObject div {
+         font-size: 50px !important; /* Размер текста подграфа */
+        font-weight: bold  !important;         /* Жирный шрифт */
+        fill: #333  !important;                /* Цвет текста */
+    transform: translateX(100px) !important; /* Сдвиг вправо */
+    text-align: left !important;
+    width: max-content !important;
+   
+}
+    </style>
+</head>
+<body>
+    <h1>Компонентная диаграмма InterCodeLearn</h1>
+    <div class="diagram">
+        <h1>....................Сервер (Backend)...............................................................................................................Клиент (Frontend)....................</h1>
+        <div class="mermaid">
+            flowchart TD
+            
+                subgraph " "
+                    A[Главная страница] --> B[Курсы]
+                    B --> C[Интерактивный редактор]
+                    C --> D[Проверка кода]
+                    C --> E[Подсветка синтаксиса]
+                    C --> F[Объяснения]
+                    C --> Z[Авто перевод]
+                end
+style C font-size: 40px , width: 400px
+style D font-size: 40px
+style D font-size: 40px
+style E font-size: 40px
+style F font-size: 40px
+style A font-size: 40px
+style B font-size: 40px
+style Z font-size: 40px
+
+                subgraph " "
+                    G[Node.js+Express] --> H[API]
+                    H --> I[Примеры кода]
+                    H --> J[Шаблоны]
+                    H --> K[Объяснения]
+                    H --> L[Ключевые слова]
+                end
+
+                subgraph " "
+                    M[SQLite]
+                    I --> M
+                    J --> M
+                    K --> M
+                    L --> M
+                end
+style H font-size: 50px;
+style G font-size: 50px;
+style M font-size: 50px;
+style I font-size: 50px;
+style J font-size: 50px;
+style K font-size: 50px;
+style L font-size: 50px;
+
+
+
+
+                C -->|Запрос| H
+                H -->|Ответ| C
+        </div>
+        <h1>База данных..............................................................................................................................................</h1>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+    </script>
+
+
+ <!-- <meta charset="UTF-8">
+    <title>Архитектура InterCodeLearn</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .diagram { 
+            background: #f5f5f5; 
+            padding: 20px; 
+            border-radius: 10px; 
+            max-width: 1800px;
+            margin: 10 auto;
+        }
+        h1 { color: #2c3e50; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Компонентная диаграмма InterCodeLearn</h1>
+    <div class="diagram">
+       <div class="mermaid">
+classDiagram
+    class CodeEditor {
+        -String userCode
+        +highlightSyntax()
+        +checkCode()
+    }
+
+    class Example {
+        -int id
+        -String code
+        -String description
+        +getExplanation()
+    }
+
+    class Template {
+        -int exampleId
+        -String templateCode
+    }
+
+    class APIService {
+        +fetchExamples()
+        +fetchTemplates()
+        +validateCode()
+    }
+
+    CodeEditor  APIService : Запрашивает данные
+    APIService -- Example : Использует
+    APIService > Template : Использует
+</div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+    </script> -->
+
+
+
+
+
+
+
+</html>
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+
+

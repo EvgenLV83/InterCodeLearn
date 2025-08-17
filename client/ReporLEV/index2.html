@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Switcher</title>
+    <style>
+        .page { display: none; }
+        .active { display: block; }
+    </style>
+</head>
+<body>
+    <!-- Страница 1 -->
+    <div id="page1" class="page active">
+        <h1>Страница 1</h1>
+        <p>Это первая страница</p>
+        <button id="actionBtn" onclick="window.location.href='/languages/CSharp.html'">Выполнить действие</button>
+    </div>
+
+    <!-- Страница 2 (с формой) -->
+    <div id="page2" class="page">
+        <h1>Страница 2</h1>
+        <textarea id="userInput" type="text" placeholder="Введите код здесь..."></textarea>
+        <!-- <input id="#userInput" placeholder="Введите текст"> -->
+        <!-- <button id="submitBtn">Отправить</button> -->
+         <button id="repeatButton" class="btn btn-secondary">Повторить</button>
+    </div>
+
+
+<!-- Страница 4 -->
+    <div id="page3" class="page">
+        <h1>Страница 3</h1>
+        <!-- <button id="actionBtn">Выполнить действие</button> -->
+        <button id="actionBtn" onclick="window.location.href='/Report1.html'">Выполнить действие</button>
+    </div>
+
+
+
+
+
+
+
+    <script src="switcher.js"></script>
+</body>
+</html>

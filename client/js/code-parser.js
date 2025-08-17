@@ -1,16 +1,11 @@
 import { domElements } from './dom-elements.js';
 
-
-
-
-
-
-
-
-
-
-
-
+// Получаем текущий путь
+const path = window.location.pathname; 
+// Извлекаем имя файла
+const filename = path.substring(path.lastIndexOf('/') + 1); 
+// Получаем язык без расширения
+const language = filename.split('.')[0]; 
 
 // Настройка объяснения ключевых слов
 export function setupKeywordExplanation() {
@@ -29,7 +24,7 @@ export function setupKeywordExplanation() {
 
       explanationTimeout = setTimeout(async () => {
         try {
-          const response = await fetch(`/api/keyword/${currentWord}`);
+          const response = await fetch(`/api/${language}/${language}_keywords/${currentWord}`);
           if (response.ok) {
             const data = await response.json();
             explanationContentEl.innerHTML = `
@@ -44,7 +39,7 @@ export function setupKeywordExplanation() {
           console.error('Error fetching keyword info:', error);
           codeExplanationWord.style.display = 'none';
         }
-      }, 800);
+      }, 200);
     }
   });
 
@@ -57,30 +52,6 @@ export function setupKeywordExplanation() {
   
   });
 }
-
-
-
-
-
- 
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export function parseUserInput(inputText) {
   // Нормализуем входной текст
@@ -137,54 +108,3 @@ while ((match = decimalRegex.exec(inputText)) !== null) {
   // Удаляем дубликаты и возвращаем результат
   return [...new Set(matches.filter(item => item && item.trim()))];
 }
-
-
-
-
-
-
-
-
-
-
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

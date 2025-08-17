@@ -13,4 +13,4 @@ export function setupEventListeners() {
   checkButton.addEventListener('click', checkCode);
   repeatButton.addEventListener('click', repeatExample);
   nextButton.addEventListener('click', nextExample);
-}
+}  

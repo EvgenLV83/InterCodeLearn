@@ -1,14 +1,20 @@
 
-
+import { translations } from './translations.js';
 import { domElements } from './dom-elements.js';
 import { parseUserInput } from './code-parser.js';
-
-// Состояние приложения
+// Получаем текущий путь
+const path = window.location.pathname;
+// Извлекаем имя файла
+const filename = path.substring(path.lastIndexOf('/') + 1); 
+// Получаем язык без расширения
+const language = filename.split('.')[0]; 
+// Инициализируем состояние приложения
 let appState = {
   examples: [],
   templates: [],
   currentExampleIndex: 0,
-  codeVisible: false
+  codeVisible: false,
+  currentLanguage: language
 };
 
 // Загрузка данных
@@ -20,10 +26,11 @@ export async function loadData() {
 
   try {
     const [examplesResponse, templatesResponse] = await Promise.all([
-      fetch('/api/examples'),
-      fetch('/api/templates')
+      fetch(`/api/${language}/${language}_examples`),
+     
+      fetch(`/api/${language}/${language}_templates`)
     ]);
-
+ console.log(language);
     if (!examplesResponse.ok) throw new Error('Ошибка загрузки примеров');
     if (!templatesResponse.ok) throw new Error('Ошибка загрузки шаблонов');
 
@@ -73,6 +80,19 @@ export function checkCode() {
   const userInput = userInputEl.value.trim().replace(/\s+/g, ' ');
   const N = parseUserInput(userInput);
 
+
+// Проверка на зарезервированные слова
+  const reservedWords = LANGUAGE_KEYWORDS[appState.currentLanguage] || [];
+  for (let i = 0; i < N.length; i++) {
+    if (reservedWords.includes(N[i])) {
+      resultEl.innerText = `❌ Ошибка: значение "${N[i]}" является зарезервированным словом в ${appState.currentLanguage}!`;
+      comparisonEl.style.display = 'none';
+      codeExplanationEl.style.display = 'none';
+      return;
+    }
+  }
+
+
   let correctTemplate = appState.examples[appState.currentExampleIndex].code;
   let correctCode = appState.templates[appState.currentExampleIndex].codeP;
 
@@ -81,15 +101,12 @@ export function checkCode() {
     correctCode = correctCode.replace(new RegExp(`\\{${i}\\}`, 'g'), N[i]);
   }
 
-  const normalizedUserInput = userInput.replace(/\s+/g, ' ').trim();
-  const normalizedCorrectCode = correctCode.replace(/\s+/g, ' ').trim();
+  const normalizedUserInput = userInput.replace(/\s+/g, '').trim();
+  const normalizedCorrectCode = correctCode.replace(/\s+/g, '').trim();
 
   console.log(normalizedUserInput);
   console.log(normalizedCorrectCode);
 
-//   if (codeExplanationEl.style.display !== 'none' && explanationRequested) {
-//   codeExplanationEl.style.display = 'block';
-// }
   if (normalizedUserInput === normalizedCorrectCode) {
     const resultUser = calculateResult(N, appState.currentExampleIndex);
     resultEl.innerText = `✅ Правильно! \n Результат вашего кода: \n ${resultUser} \n Нажмите 'Следующий'.`;
@@ -106,7 +123,6 @@ export function checkCode() {
     codeExplanationEl.style.display = 'none'; 
   }
 }
-
 
 function calculateResult(N, currentIndex) {
   const example = appState.examples[currentIndex];
@@ -161,69 +177,13 @@ function calculateResult(N, currentIndex) {
 }
 
 
+// Словарь зарезервированных слов для разных языков
+const LANGUAGE_KEYWORDS = {
+  'CSharp': ['abstract', 'as', 'base', 'bool', 'break', 'byte', 'case', 'catch', 'char', 'checked', 'class', 'const', 'continue', 'decimal', 'default', 'delegate', 'do', 'double', 'else', 'enum', 'event', 'explicit', 'extern', 'false', 'finally', 'fixed', 'float', 'for', 'foreach', 'goto', 'if', 'implicit', 'in', 'int', 'interface', 'internal', 'is', 'lock', 'long', 'namespace', 'new', 'null', 'object', 'operator', 'out', 'override', 'params', 'private', 'protected', 'public', 'readonly', 'ref', 'return', 'sbyte', 'sealed', 'short', 'sizeof', 'stackalloc', 'static', 'string', 'struct', 'switch', 'this', 'throw', 'true', 'try', 'typeof', 'uint', 'ulong', 'unchecked', 'unsafe', 'ushort', 'using', 'virtual', 'void', 'volatile', 'while'],
+  'CPP': ['alignas', 'alignof', 'and', 'and_eq', 'asm', 'auto', 'bitand', 'bitor', 'bool', 'break', 'case', 'catch', 'char', 'char8_t', 'char16_t', 'char32_t', 'class', 'compl', 'concept', 'const', 'consteval', 'constexpr', 'constinit', 'const_cast', 'continue', 'co_await', 'co_return', 'co_yield', 'decltype', 'default', 'delete', 'do', 'double', 'dynamic_cast', 'else', 'enum', 'explicit', 'export', 'extern', 'false', 'float', 'for', 'friend', 'goto', 'if', 'inline', 'int', 'long', 'mutable', 'namespace', 'new', 'noexcept', 'not', 'not_eq', 'nullptr', 'operator', 'or', 'or_eq', 'private', 'protected', 'public', 'register', 'reinterpret_cast', 'requires', 'return', 'short', 'signed', 'sizeof', 'static', 'static_assert', 'static_cast', 'struct', 'switch', 'template', 'this', 'thread_local', 'throw', 'true', 'try', 'typedef', 'typeid', 'typename', 'union', 'unsigned', 'using', 'virtual', 'void', 'volatile', 'wchar_t', 'while', 'xor', 'xor_eq']
+};
 
 
-// Расширенный словарь переводов для программирования
-        const translations = {
-            // Типы данных
-            "кошка": "int",
-            "булевый": "boolean",
-            "строка": "String",
-            "плавающий": "float",
-            "двойной": "double",
-            "символьный": "char",
-            "байт": "byte",
-            
-            // Модификаторы
-            "публичный": "public",
-            "приватный": "private",
-            "защищенный": "protected",
-            "статический": "static",
-            "финальный": "final",
-            "абстрактный": "abstract",
-            "синхронизированный": "synchronized",
-            "переходный": "transient",
-            "летучий": "volatile",
-            
-            // Ключевые слова
-            "класс": "class",
-            "интерфейс": "interface",
-            "перечисление": "enum",
-            "импорт": "import",
-            "пакет": "package",
-            "новый": "new",
-            "возврат": "return",
-            "супер": "super",
-            "этот": "this",
-            
-            // Управляющие конструкции
-            "если": "if",
-            "иначе": "else",
-            "для": "for",
-            "пока": "while",
-            "делать": "do",
-            "переключатель": "switch",
-            "случай": "case",
-            "по умолчанию": "default",
-            "прервать": "break",
-            "продолжить": "continue",
-            "попробовать": "try",
-            "поймать": "catch",
-            "выбросить": "throw",
-            "бросить": "throws",
-            "наконец": "finally",
-            
-            // Логические значения
-            "истина": "true",
-            "ложь": "false",
-            
-            // Прочее
-            "недействительный": "void",
-            "утверждать": "assert",
-            "экземпляр": "instanceof",
-            "родной": "native",
-            "строгий": "strictfp"
-        };
 
         // Функция для поиска последнего введенного слова
        export function getLastWord(text, cursorPos) {
@@ -265,31 +225,6 @@ function calculateResult(N, currentIndex) {
                 input.selectionStart = input.selectionEnd = wordStart + translated.length;
             }
         }
-
-// // Настройка обработчика событий
-//   userInputEl.addEventListener('input', translateInPlace);
-//         userInputEl.addEventListener('keydown', function(e) {
-//             // Обрабатываем пробел и другие разделители
-//             if ([' ', ';', '(', '{', '\n'].includes(e.key)) {
-//                 setTimeout(() => translateInPlace(e), 10);
-//             }
-//         });
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             
             // Функция подсветки кода
            export function highlightCode() {
@@ -323,14 +258,12 @@ function calculateResult(N, currentIndex) {
   codeHighlight.style.height = userInputEl.scrollHeight + 'px';
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
 export function toggleCodeVisibility() {
   const { codeEl, tryButton, checkButton, userInputEl } = domElements;
   const currentExample = appState.examples[appState.currentExampleIndex];
 
   if (!appState.codeVisible) {
     // Показываем код
-    //codeEl.style.display = 'block';
     userInputEl.value = currentExample.code; // Копируем код в textarea
     highlightCode();
     appState.codeVisible = true;
@@ -338,7 +271,6 @@ export function toggleCodeVisibility() {
     checkButton.disabled = true;
   } else {
     // Скрываем код (полный сброс)
-    //codeEl.style.display = 'none';
     userInputEl.value = ''; // Очищаем textarea
     highlightCode();
     appState.codeVisible = false;
@@ -363,7 +295,6 @@ export function nextExample() {
   }
   highlightCode();
 }
-
 
 // Обновленный createApp()
 export async function createApp() {
@@ -404,7 +335,7 @@ async function displayCodeExplanation(exampleIndex) {
   const { codeExplanationEl } = domElements;
   
   try {
-    const response = await fetch(`/api/code-explanations/${exampleIndex + 1}`); // +1 если индексы в БД начинаются с 1
+    const response = await fetch(`/api/${appState.currentLanguage}/${appState.currentLanguage}_code-explanations/${exampleIndex + 1}`); 
     if (!response.ok) throw new Error('Объяснение не найдено');
     
     const explanation = await response.json();
@@ -415,7 +346,7 @@ async function displayCodeExplanation(exampleIndex) {
     codeExplanationEl.innerHTML = `
       <div class="explanation-section">
         <h3>Структура кода:</h3>
-        <p>${explanation.structure || "Нет информации"}</p>
+        <p>${explanation.structure || "Нет информации" }</p>
       </div>
       <div class="explanation-section">
         <h3>Алгоритм работы:</h3>

@@ -7,40 +7,50 @@
     <title>Запомните синтаксис C#</title>
     <link rel="stylesheet" href="/css/dist/combined.css" />
     <!-- Подключаем Prism.js -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet"/>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
 </head>
+
 <body>
+
     <header>
         <div class="logo">InterCodeLearn</div>
         <nav>
             <a href="/index.html">Главная</a>
             <a href="/Courses.html">Курсы</a>
-            <!-- <a href="/ReporLEV/Report6.html">Технологии</a>  -->
+            <a href="#">Практика</a>
+            <a href="#">Войти</a>
         </nav>
     </header>
+
     <main style="padding: 20px; max-width: 1800px; margin: auto;">
-        <option id="languageSelector" style= "padding: 20px; max-width: 180px;" value="CSharp">Запомните синтаксис C#</option>
+        <option id="languageSelector" style= "padding: 20px; max-width: 180px;" value="CPP">Запомните синтаксис C++</option>
+        
+
 <section class="info">
         <div class="cards-info">
+
   <div id="loading">Загрузка данных...</div>
+  
         <div id="description"><h3>Задача</h3></div> 
         <div id="code"></div>
+
              <div id="explanationContent"><h3>Объяснение ключевых слов:</h3></div>
         </div>
     </section>
-   <div class="container" style="display: flex; gap: 20px;">
+<div class="container" style="display: flex; gap: 20px;">
   <!-- Левая колонка - редактор кода -->
   <div class="input-card" style="flex: 1;">
     <div id="inputArea" style="margin-top: 30px;">
       <div class="code-editor-container">
         <textarea id="userInput" placeholder="Введите код здесь..."></textarea>
-        <pre id="codeHighlight"><code class="language-CSharp"></code></pre>
+        <pre id="codeHighlight"><code class="language-CPP"></code></pre>
       </div>
     </div>
+  
   </div>
+  
   <!-- Правая колонка - результаты и сравнение -->
   <div style="flex: 1;">
       <div id="codeExplanation" style="margin-top: 20px; display:none;"></div>
@@ -59,6 +69,7 @@
       </div>
     </div>
   </div>
+   
   </div>
 </div>
             <div style="margin-top: 20px;">
@@ -68,19 +79,25 @@
                 <button id="nextButton" class="btn btn-secondary" disabled>Следующий</button>
             </div>
         </div>
+        
     </main>
 
     <footer>
         &copy; Copyright © 2025 Loginov E.V. All rights reserved. | <a href="#" style="color:#00ffcc; text-decoration:none;">Контакты</a>
     </footer>
 
+
 <script type="module" src="/js/dom-elements.js"></script>
 <script type="module" src="/js/code-parser.js"></script>
 <script type="module" src="/js/app-core.js"></script>
 <script type="module" src="/js/event-listeners.js"></script>
-<script type="module" src="/js/main.js"></script> 
+<script type="module" src="/js/main.js"></script> <!-- Должен быть последним -->
 
 
 </body>
 </html>
+
+
+
+
 

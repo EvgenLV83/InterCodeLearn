@@ -13,10 +13,11 @@ export const domElements = {
   repeatButton: document.getElementById('repeatButton'),
   nextButton: document.getElementById('nextButton'),
   codeExplanationEl: document.getElementById('codeExplanation'),
-     explanationContentEl: document.getElementById('explanationContent'),
+  explanationContentEl: document.getElementById('explanationContent'),
   languageSelector: document.getElementById('languageSelector'),
   codeHighlight: document.querySelector('#codeHighlight code'),
   codeExplanationWord: document.getElementById('codeExplanationWord'),
+ 
 };
 
-// codeExplanationEl  word
+

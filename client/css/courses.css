@@ -1,0 +1,27 @@
+.courses {
+    padding: 180px 20px;
+    background-color: #1f1f1f;
+     min-height: 80vh;
+}
+
+.courses h2 {
+    font-size: clamp(24px, 3vw, 32px);
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-align: center;
+    position: relative;
+    margin-left: auto; 
+    margin-right: auto;
+    padding-bottom: 10px;
+}
+
+.courses h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #00ffcc;
+}

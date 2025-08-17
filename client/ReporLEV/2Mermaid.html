@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Интерактивное изучение языков программирования</title>
-    <link rel="stylesheet" href="/css/Color_Scheme.css">
+    <link rel="stylesheet" href="/css/dist/combined.css">
 
 </head>
 
@@ -17,7 +17,7 @@
         <nav>
             <a href="index.html">Главная</a>
             <a href="Courses.html">Курсы</a>
-            <a href="MermaidSQL.html">Архитектура</a>
+            <a href="3Mermaid.html">Компонентная диаграмма</a>
         </nav>
     </header>
 
@@ -31,46 +31,59 @@
         body { font-family: Arial, sans-serif; margin: 20px; }
         .diagram { 
             background: #f5f5f5; 
-            padding: 20px; 
-            border-radius: 10px; 
-            max-width: 1800px;
-            margin: 10 auto;
+            padding: 1px; 
+            border-radius: 50px; 
+            max-width: 2410px;
+            margin: 1;
         }
         h1 { color: #2c3e50; text-align: center; }
+        .mermaid {
+    transform: scale(1.35);
+    transform-origin: 0 0;
+}
+.mermaid .edgeLabel {
+        font-size: 50px;
+    }
+
     </style>
 </head>
 <body>
     <h1>Компонентная диаграмма InterCodeLearn</h1>
     <div class="diagram">
+        <h1>Сервер (Backend)</h1>
         <div class="mermaid">
             flowchart TD
-                subgraph "Клиент (Frontend)"
-                    A[Главная страница] --> B[Курсы]
-                    B --> C[Интерактивный редактор C#]
-                    C --> D[Проверка кода]
-                    C --> E[Подсветка синтаксиса]
-                    C --> F[Объяснения]
-                end
-
-                subgraph "Сервер (Backend)"
-                    G[Node.js + Express] --> H[API]
+                subgraph " "
+                    G[Node.js+Express] --> H[API]
                     H --> I[Примеры кода]
                     H --> J[Шаблоны]
                     H --> K[Объяснения]
                     H --> L[Ключевые слова]
+                    C[Клиент]
                 end
 
-                subgraph "База данных"
+                subgraph " "
                     M[SQLite]
                     I --> M
                     J --> M
                     K --> M
                     L --> M
                 end
+style H font-size: 30px;
+style G font-size: 30px;
+style M font-size: 30px;
+style I font-size: 30px;
+style J font-size: 30px;
+style K font-size: 30px;
+style L font-size: 30px;
+style C font-size: 30px;
+
+
 
                 C -->|Запрос| H
                 H -->|Ответ| C
         </div>
+        <h1>База данных</h1>
     </div>
 
     <script>
@@ -85,7 +98,7 @@
     </script>
 
 
- <meta charset="UTF-8">
+ <!-- <meta charset="UTF-8">
     <title>Архитектура InterCodeLearn</title>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
@@ -129,9 +142,9 @@ classDiagram
         +validateCode()
     }
 
-    CodeEditor --> APIService : Запрашивает данные
-    APIService --> Example : Использует
-    APIService --> Template : Использует
+    CodeEditor  APIService : Запрашивает данные
+    APIService -- Example : Использует
+    APIService > Template : Использует
 </div>
     </div>
 
@@ -144,7 +157,7 @@ classDiagram
                 htmlLabels: true
             }
         });
-    </script>
+    </script> -->
 
 
 

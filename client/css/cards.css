@@ -1,0 +1,60 @@
+
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(35vh, 1fr));
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 30px;
+    transition: all 0.3s ease;
+    border: 1px solid #333;
+    min-height: 30vh;
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: #00ffcc;
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #00ffcc;
+    font-size: 24px;
+}
+
+.card p {
+    font-size: 18px;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.card button {
+    margin-top: 15px;
+    padding: 12px 24px;
+    background-color: #00ffcc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    width: 100%;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .cards {
+        grid-template-columns: 1fr; /* Одна колонка на маленьких экранах */
+        gap: 20px;
+    }
+    .card {
+        min-height: auto; /* Убираем фиксированную высоту */
+    }
+}

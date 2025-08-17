@@ -1,0 +1,30 @@
+.info {
+    padding: 50px 10px;
+    background-color: #1f1f1f;
+}
+
+.cards-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));
+    gap: 110px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+#explanationContent {
+    background-color: #13889c;
+    font-size: 22px;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 780px; 
+    line-height: 1.7; 
+}
+
+#description {
+    background-color: #13889c;
+    font-size: 24px;
+    border-radius: 10px;
+    padding: 70px;
+    max-width: 780px; 
+    line-height: 1.7; 
+}

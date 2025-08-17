@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Интерактивное изучение языков программирования</title>
+    <link rel="stylesheet" href="/css/dist/combined.css">
+
+</head>
+
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <div class="logo">InterCodeLearn</div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="Courses.html">Курсы</a>
+            <a href="4MermaidSQL.html">ER-диаграмма</a>
+        </nav>
+    </header>
+
+   
+    <meta charset="UTF-8">
+<title>ER-диаграмма базы данных InterCodeLearn</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    /* .diagram { 
+        background: #f5f5f5; 
+        padding: 1px; 
+        border-radius: 5px; 
+        max-width: 2500px;
+        margin: 1;
+    } */
+    h1 { color: #2c3e50; text-align: center; }
+    .mermaid {
+        transform: scale(2.3);
+        transform-origin: 0 0;
+    }
+    
+    /* Стили для увеличения текста в ER-диаграмме */
+    .mermaid .er.entityBox > text {
+        font-size: 54px !important;
+    }
+    .mermaid .er.attributeText {
+        font-size: 52px !important;
+    }
+    .mermaid .er.relationshipLabel text {
+        font-size: 52px !important;
+    }
+    .mermaid .er.relationshipLine .cardinality {
+        font-size: 52px !important;
+    }
+    .mermaid .edgeLabel {
+        font-size: 52px !important;
+    }
+</style>
+</head>
+<body>
+    <h1>ER-диаграмма базы данных InterCodeLearn</h1>
+    <div class="diagram">
+        <div class="mermaid">
+            erDiagram
+
+                KEYWORDS {
+                    int id PK
+                    text keyword "Ключевое слово"
+                    text description "Описание"
+                    text example "Пример использования"
+                    text category "Категория (тип данных, оператор и т.д.)"
+                }
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            er: {
+                diagramPadding: 10,
+                layoutDirection: 'TB',
+                useMaxWidth: false  /* Отключаем автоматическое масштабирование */
+            }
+        });
+    </script>
+
+</body>
+</html>

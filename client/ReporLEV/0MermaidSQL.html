@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Интерактивное изучение языков программирования</title>
+    <link rel="stylesheet" href="/css/dist/combined.css">
+
+</head>
+
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <div class="logo">InterCodeLearn</div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="Courses.html">Курсы</a>
+            <a href="1MermaidSQL.html">TEMPLATES</a>
+        </nav>
+    </header>
+
+   
+    <meta charset="UTF-8">
+<title>ER-диаграмма базы данных InterCodeLearn</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    
+    h1 { color: #2c3e50; text-align: center; }
+    .mermaid {
+        transform: scale(2.5);
+        transform-origin: 0 0;
+    }
+    
+   
+    .mermaid .edgeLabel {
+        font-size: 52px !important;
+    }
+</style>
+</head>
+<body>
+    <h1>ER-диаграмма базы данных InterCodeLearn</h1>
+    <div class="diagram">
+        <div class="mermaid">
+            erDiagram
+                EXAMPLES {
+                    int id PK "Уникальный ID"
+                    text code "Пример кода"
+                    text description "Описание"
+                    int next "ID следующего примера (nullable)"
+                }
+                
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            er: {
+                diagramPadding: 10,
+                layoutDirection: 'TB',
+                useMaxWidth: false  /* Отключаем автоматическое масштабирование */
+            }
+        });
+    </script>
+
+</body>
+</html>

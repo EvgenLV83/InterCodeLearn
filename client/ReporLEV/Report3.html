@@ -3,136 +3,53 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Запомните синтаксис C#</title>
-    <link rel="stylesheet" href="/css/Color_Scheme.css" />
-    <!-- Подключаем Prism.js -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Интерактивное изучение языков программирования</title>
+    <link rel="stylesheet" href="/css/dist/combined.css">
+
 </head>
 
 <body>
 
-    <header>
-        <div class="logo">InterCodeLearn</div>
-        <nav>
-            <a href="/index.html">Главная</a>
-            <a href="/Courses.html">Курсы</a>
-            <a href="Report6.html">Технологии</a> 
-        </nav>
-    </header>
-
-    <main style="padding: 20px; max-width: 1800px; margin: auto;">
-        <option id="languageSelector" style= "padding: 20px; max-width: 180px;" value="csharp">Запомните синтаксис C#</option>
-        
-
-<section class="info">
-        <div class="cards-info">
-
-  <div id="loading">Загрузка данных...</div>
-  
-        <div id="description"><h3>Задача</h3></div> 
-        <div id="code"></div>
-
-             <div id="explanationContent"><h3>Объяснение ключевых слов:</h3></div>
-
-       
-        </div>
-    </section>
-<div id="inputArea" style="margin-top: 30px;">
-  <div class="code-editor-container">
-  <textarea id="userInput" placeholder="Введите код здесь..."></textarea>
-  <pre id="codeHighlight"><code class="language-csharp"></code></pre>
-</div></div>
-     
-            <div id="codeExplanation" style="margin-top: 20px; display:none;"></div>
-        <div id="codeExplanation" class="code-explanation" style="display: none;"></div>
-
- <div id="result" style="margin-top: 20px; font-size: 18px;"></div>
-        <div id="comparison" style="margin-top: 30px; display:none;">
-            <div>Сравнение кода:</div>
-            <div class="code-comparison" style="display:flex; gap:20px;">
-                <div class="code-column user-code" style="flex:1;">
-                    <div class="code-title">Ваш код:</div>
-                    <pre id="userCodeDisplay" style="background:#222; padding:10px; border-radius:5px;"></pre>
-                </div>
-                <div class="code-column correct-code" style="flex:1;">
-                    <div class="code-title">Правильный код:</div>
-                    <pre id="correctCodeDisplay" style="background:#222; padding:10px; border-radius:5px;"></pre>
-                </div>
-            </div>
-        </div>
-
-
-
-
-            <div style="margin-top: 20px;">
-                <button id="checkButton" class="btn btn-primary">Проверить</button>
-                <button id="repeatButton" class="btn btn-secondary">Повторить</button>
-                <button id="nextButton" class="btn btn-secondary" disabled>Следующий</button>
-            </div>
-        </div>
-
-
-
-
-
-        <button id="tryButton" class="btn btn-secondary" disabled style="margin-top: 20px;">Показать код</button>
-    </main>
-
-    <footer>
-        &copy; 2025 CodeLearn. Все права защищены. | <a href="#" style="color:#00ffcc; text-decoration:none;">Контакты</a>
-    </footer>
-
-<script type="module" src="/js/dom-elements.js"></script>
-<script type="module" src="/js/code-parser.js"></script>
-<script type="module" src="/js/app-core.js"></script>
-<script type="module" src="/js/event-listeners.js"></script>
-<script type="module" src="/js/main.js"></script>
-
-
-</body>
-</html>
-<!-- <!DOCTYPE html>
-<html lang="ru">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Интерактивное изучение языков программирования</title>
-    <link rel="stylesheet" href="/css/Color_Scheme.css">
-
-</head>
-
-<body> -->
-
     <!-- Шапка -->
-    <!-- <header>
+    <header>
         <div class="logo">InterCodeLearn</div>
         <nav>
             <a href="index.html">Главная</a>
             <a href="Courses.html">Курсы</a>
-            <a href="Mermaid.html">Войти</a>
+           <a href="1Mermaid.html">Frontend</a>
         </nav>
-    </header> -->
+    </header>
 
-    <!-- Герой-секция -->
-    <!-- <section class="hero">
-        <h1>Формализованная постановка задачи
-        <div>Разработать веб-приложение для интерактивного изучения языков программирования.</div>
-        </h1>
+    <!-- Раздел курсов -->
+    <section class="courses">
+ <h2>Курсы</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Python</h3>
+                <p>Учитесь программировать на Python с нуля. Создавайте проекты и автоматизируйте задачи.</p>
+                <button onclick="window.location.href='/TechnicalWork.html'">Начать обучение</button>
+            </div>
+            
+            <div class="card">
+                <h3>CSharp</h3>
+                <p>Изучайте веб-разработку и создавайте интерактивные сайты с помощью CSharp.</p>
+                <button onclick="window.location.href='/languages/CSharp.html'">Начать обучение</button>
+            </div>
+            <div class="card">
+                <h3>C++</h3>
+                <p>Освойте системное программирование и создание высокопроизводительных приложений.</p>
+                <button onclick="window.location.href='/languages/CPP.html'">Начать обучение</button>
+            </div>
+        </div>
+    </section>
 
-<h1>
-<div>В рамках проекта были поставлены следующие задачи:</div>
-<div> </div> 
-<div>1. Разработать интерактивный редактор кода с подсветкой синтаксиса</div> 
-<div>2. Реализовать систему проверки решений с анализом введенного кода</div> 
-<div>3. Создать базу примеров с пояснениями и шаблонов </div> 
-<div>4. Разработать механизм подсказок по ключевым словам языка</div> 
-<div>5. Обеспечить пошаговое прохождение учебных материалов</div> 
-<div>6. Реализовать адаптивный интерфейс для разных устройств</div> 
-</h1>
-</section>
+    <!-- Футер -->
+    <footer>
+        &copy; 2025 CodeLearn. Все права защищены. | <a href="#"
+            style="color:#00ffcc; text-decoration:none;">Контакты</a>
+    </footer>
+
 </body>
-</html> -->
+
+</html>
