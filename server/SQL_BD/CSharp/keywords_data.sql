@@ -191,4 +191,7 @@ INSERT INTO CSharp_keywords (keyword, description, example, category) VALUES
 ('Attribute', 'Базовый класс для всех атрибутов', '[Serializable] class MyClass { }', 'Атрибуты'),
 ('Obsolete', 'Атрибут для пометки устаревшего кода', '[Obsolete("Use NewMethod instead")] void OldMethod() { }', 'Атрибуты'),
 ('Serializable', 'Атрибут для пометки сериализуемых классов', '[Serializable] class MyData { }', 'Атрибуты'),
-('DllImport', 'Атрибут для импорта функций из DLL', '[DllImport("user32.dll")] static extern void MessageBeep(uint uType);', 'Атрибуты');
+('DllImport', 'Атрибут для импорта функций из DLL', '[DllImport("user32.dll")] static extern void MessageBeep(uint uType);', 'Атрибуты'),
+-- 18. Методы
+('Console.Write', 'Метод для вывода текста в консоль без перевода на новую строку после вывода', 'Console.Write("Текст");', 'Методы вывода'),
+('Console.WriteLine', 'Метод для вывода текста в консоль с автоматическим переводом на новую строку после вывода', 'Console.WriteLine("Текст");', 'Методы вывода')

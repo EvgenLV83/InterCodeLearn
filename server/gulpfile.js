@@ -14,7 +14,8 @@ function styles() {
     '../client/css/info.css',
     '../client/css/code.css',
     '../client/css/footer.css',
-    '../client/css/responsive.css'
+    '../client/css/responsive.css',
+    '../client/css/inputArea.css'
   ])
   .pipe(concat('combined.css'))
   .pipe(cleanCSS({ compatibility: 'ie8' }))

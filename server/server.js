@@ -2,12 +2,12 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-const cors = require('cors');
+//const cors = require('cors');
 const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 1. Инициализация базы данных SQLite
+// Инициализация базы данных SQLite
 const dbPath = path.join(__dirname, 'InterCodeLearn_db.sqlite');
 
 // Удаляем старую базу данных при каждом запуске (для тестирования)
@@ -23,7 +23,7 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CR
   }
 });
 
-// 2. Определяем пути к клиентским файлам
+// Определяем пути к клиентским файлам
 const clientDir = path.join(__dirname, '../client');
 const jsDir = path.join(clientDir, 'js');
 const languagesDir = path.join(clientDir, 'languages');
@@ -34,48 +34,10 @@ if (!fs.existsSync(clientDir) || !fs.existsSync(jsDir) || !fs.existsSync(languag
   process.exit(1);
 }
 
-// // 3. Настройка middleware
-// app.use(cors({
-//   origin: '*',
-//   methods: ['GET', 'POST']
-// }));
-// app.use(express.json());
-
-// 4. Настройка статических файлов
+// Настройка статических файлов
 app.use(express.static(clientDir)); // Основная папка клиента
 app.use('/js', express.static(jsDir)); // Специальный маршрут для JS
 app.use('/languages', express.static(languagesDir)); // Маршрут для языковых файлов
-
-// 5. Инициализация базы данных
-// async function initializeDatabase() {
-//   return new Promise((resolve, reject) => {
-//     db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='examples'", (err, row) => {
-//       if (err) {
-//         reject(err);
-//         return;
-//       }
-
-//       if (!row) {
-//         console.log('🔧 Initializing new database...');
-//         const sqlScript = fs.readFileSync(path.join(__dirname, 'database.sql'), 'utf8');
-
-//         db.exec(sqlScript, (execErr) => {
-//           if (execErr) {
-//             console.error('❌ Error initializing database:', execErr.message);
-//             reject(execErr);
-//           } else {
-//             console.log('✅ Database initialized successfully');
-//             resolve(true);
-//           }
-//         });
-//       } else {
-//         console.log('✅ Database already exists and is properly structured');
-//         resolve(true);
-//       }
-//     });
-//   });
-// }
-
 
 async function initializeDatabase() {
   try {
@@ -90,10 +52,7 @@ async function initializeDatabase() {
       'SQL_BD/CSharp/templates_data.sql',
       'SQL_BD/CSharp/keywords_data.sql',
       'SQL_BD/CSharp/explanations_data.sql',
-
-
-      
-    ];
+      ];
     
     for (const file of sqlFiles) {
       const sql = fs.readFileSync(path.join(__dirname, file), 'utf8');
@@ -116,13 +75,13 @@ async function initializeDatabase() {
 
 
 
-// 6. Логирование запросов
+// Логирование запросов
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
 });
 
-// 7. API Endpoints
+// API Endpoints
 app.get(`/api/CSharp/CSharp_examples`, async (req, res) => {
   try {
     db.all('SELECT * FROM CSharp_examples ORDER BY id', (err, rows) => {
@@ -221,9 +180,10 @@ app.get(`/api/CSharp/CSharp_keywords/:word`, async (req, res) => {
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// 7. API Endpoints
+
+
+// API Endpoints
 app.get(`/api/CPP/CPP_examples`, async (req, res) => {
   try {
     db.all('SELECT * FROM CPP_examples ORDER BY id', (err, rows) => {
@@ -286,7 +246,6 @@ app.get(`/api/CPP/CPP_code-explanations/:id`, (req, res) => {
 });
 
 
-
 app.get(`/api/CPP/CPP_keywords/:word`, async (req, res) => {
   const word = req.params.word;
   console.log(`Requesting explanation for word: ${word}`);
@@ -320,26 +279,7 @@ app.get(`/api/CPP/CPP_keywords/:word`, async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// 8. Обработка SPA (должна быть последней)
+// Обработка SPA (должна быть последней)
 app.get('*', (req, res) => {
   res.sendFile(path.join(clientDir, 'index.html'));
 });
